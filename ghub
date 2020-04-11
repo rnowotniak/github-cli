@@ -3,11 +3,20 @@
 # Robert Nowotniak 2020 <rnowotniak@gmail.com>
 #
 
-token=$(cat .token)
+TOKEN_FILE=.token
+
+
+if [ ! -r "$TOKEN_FILE" -o ! -s "$TOKEN_FILE" ]; then
+	echo "Error: $TOKEN_FILE empty or missing."
+	echo "Please generate your personal OAuth token in your GitHub account developer settings, and save it in $TOKEN_FILE"
+	exit 1
+fi
+
+token=$(cat "$TOKEN_FILE")
 
 
 list() {
-	curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user/repos | jq -r '.[].name'
+	curl -s -H "Authorization: token ${token}" https://api.github.com/user/repos | jq -r '.[].name'
 	exit 0
 }
 
@@ -43,7 +52,7 @@ create() {
 		help
 	fi
 	repo="$1"
-	curl -s -H "Authorization: token $(cat .token)" \
+	curl -s -H "Authorization: token ${token}" \
 		-d "{\"name\":\"${repo}\",\"description\":\"${description}\",\"private\":${private}}" \
 		https://api.github.com/user/repos | jq -r '.html_url'
 	exit 0
@@ -53,11 +62,11 @@ delete() {
 	if [ "$#" -lt 1 ]; then
 		help
 	fi
-	owner=$(curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user | jq -r '.login')
+	owner=$(curl -s -H "Authorization: token ${token}" https://api.github.com/user | jq -r '.login')
 	[ "$owner" ] || exit 1
 
 	for repo in "$@"; do 
-		curl -s -H "Authorization: token $(cat .token)" \
+		curl -s -H "Authorization: token ${token}" \
 			-X DELETE \
 			https://api.github.com/repos/"$owner"/"$repo" | jq -r '.message'
 	done
@@ -68,11 +77,11 @@ info() {
 	if [ "$#" -lt 1 ]; then
 		help
 	fi
-	owner=$(curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user | jq -r '.login')
+	owner=$(curl -s -H "Authorization: token ${token}" https://api.github.com/user | jq -r '.login')
 	[ "$owner" ] || exit 1
 
 	for repo in "$@"; do 
-		curl -s -H "Authorization: token $(cat .token)" \
+		curl -s -H "Authorization: token ${token}" \
 			https://api.github.com/repos/"$owner"/"$repo"
 	done
 }
