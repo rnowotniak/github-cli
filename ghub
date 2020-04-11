@@ -21,6 +21,8 @@ list() {
 }
 
 help() {
+	echo "github-cli,  Robert Nowotniak 2020 <rnowotniak@gmail.com>"
+	echo 
 	echo "Usage:"
 	echo -e "\t$0  -h | help"
 	echo -e "\t$0 [ list ]"

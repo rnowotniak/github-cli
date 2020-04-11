@@ -2,15 +2,30 @@
 
 Author: Robert Nowotniak 2020 <<rnowotniak@gmail.com>>
 
-   Usage:
+## Usage
 
     ghub  -h | help
     ghub [ list ]
     ghub create [ -d <description> ] [ -p ] <repo_name>
-                -p  means create a public repository (private is the default)
+                -p  create a public repository (private is the default)
     ghub delete <repo_name> [ <repo_name> ... ]
     ghub info <repo_name> [ <repo_name> ... ]
 
+## Token generation & permissions settings
+
+Generate your personal access token in github
+**Settings -> Developer settings -> Personal access tokens
+-> Generate new token**.
+
+This is the direct link to your [github personal access tokens](https://github.com/settings/tokens).
+
+Permissions required to manage (create/list/delete) both your private and
+public github repositories are "repo" and "delete_repo":
+
+![permissions](img/scopes.png)
+
+Save the generated token (40 random characters) in **.token** file (the exact
+path is defined in ghub / `TOKEN_FILE` variable).
 ## List repositories
 
     $ ghub 
@@ -21,6 +36,8 @@ Author: Robert Nowotniak 2020 <<rnowotniak@gmail.com>>
     qclib
     qopt
     $ _
+
+Save 
 
 ## Create repository
 
