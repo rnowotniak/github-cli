@@ -37,8 +37,6 @@ path is defined in ghub / `TOKEN_FILE` variable).
     qopt
     $ _
 
-Save 
-
 ## Create repository
 
     $ ghub create -d 'My cli test repo' Test123
