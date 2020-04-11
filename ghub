@@ -16,20 +16,22 @@ help() {
 	echo -e "\t$0  -h | help"
 	echo -e "\t$0 [ list ]"
 	echo -e "\t$0 create [ -d <description> ] [ -p ] <repo_name>"
-	echo -e "\t$0 delete <repo_name>"
+	echo -e "\t            -p  means create a public repository (private is the default)"
+	echo -e "\t$0 delete <repo_name> [ <repo_name> ... ]"
+	echo -e "\t$0 info <repo_name> [ <repo_name> ... ]"
 	echo
 	exit 1
 }
 
 create() {
-	private=false
+	private=true
 	while getopts ":d:p" o; do
 		case "$o" in
 			d)
 				description=$OPTARG
 			;;
 			p)
-				private=true
+				private=false
 			;;
 			*)
 				help
@@ -40,25 +42,39 @@ create() {
 	if [ "$#" -ne 1 ]; then
 		help
 	fi
-	name="$1"
+	repo="$1"
 	curl -s -H "Authorization: token $(cat .token)" \
-		-d "{\"name\":\"${1}\",\"description\":\"${description}\",\"private\":\"${private}\"}" \
+		-d "{\"name\":\"${repo}\",\"description\":\"${description}\",\"private\":${private}}" \
 		https://api.github.com/user/repos | jq -r '.html_url'
 	exit 0
 }
 
 delete() {
-	if [ "$#" -ne 1 ]; then
+	if [ "$#" -lt 1 ]; then
 		help
 	fi
-	name="$1"
+	owner=$(curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user | jq -r '.login')
+	[ "$owner" ] || exit 1
 
-	curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user
-
-	#curl -s -H "Authorization: token $(cat .token)" \
-	#	-X DELETE \
-	#	https://api.github.com/user/repos | jq -r '.html_url'
+	for repo in "$@"; do 
+		curl -s -H "Authorization: token $(cat .token)" \
+			-X DELETE \
+			https://api.github.com/repos/"$owner"/"$repo" | jq -r '.message'
+	done
 	exit 0
+}
+
+info() {
+	if [ "$#" -lt 1 ]; then
+		help
+	fi
+	owner=$(curl -s -H "Authorization: token $(cat .token)" https://api.github.com/user | jq -r '.login')
+	[ "$owner" ] || exit 1
+
+	for repo in "$@"; do 
+		curl -s -H "Authorization: token $(cat .token)" \
+			https://api.github.com/repos/"$owner"/"$repo"
+	done
 }
 
 while getopts "h" o; do
@@ -80,9 +96,14 @@ case "$1" in
 	"create" )
 		shift
 		create "$@"
+	;;
 	"delete" )
 		shift
 		delete "$@"
+	;;
+	"info" )
+		shift
+		info "$@"
 	;;
 	"help"|*)
 		help
