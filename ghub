@@ -3,7 +3,7 @@
 # Robert Nowotniak 2020 <rnowotniak@gmail.com>
 #
 
-TOKEN_FILE=.token
+TOKEN_FILE=~/.github-cli-token
 
 
 if [ ! -r "$TOKEN_FILE" -o ! -s "$TOKEN_FILE" ]; then
