@@ -57,6 +57,7 @@ create() {
 	curl -s -H "Authorization: token ${token}" \
 		-d "{\"name\":\"${repo}\",\"description\":\"${description}\",\"private\":${private}}" \
 		https://api.github.com/user/repos | jq -r '.html_url'
+	info "$repo" | jq -r '.ssh_url'
 	exit 0
 }
 
