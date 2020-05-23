@@ -4,7 +4,7 @@
 #
 
 TOKEN_FILE=~/.github-cli-token
-
+MAX_REPOS=9999999
 
 if [ ! -r "$TOKEN_FILE" -o ! -s "$TOKEN_FILE" ]; then
 	echo "Error: $TOKEN_FILE empty or missing."
@@ -16,7 +16,7 @@ token=$(cat "$TOKEN_FILE")
 
 
 list() {
-	curl -s -H "Authorization: token ${token}" https://api.github.com/user/repos | jq -r '.[].name'
+	curl -s -H "Authorization: token ${token}" https://api.github.com/user/repos'?per_page='"$MAX_REPOS" | jq -r '.[].name'
 	exit 0
 }
 
