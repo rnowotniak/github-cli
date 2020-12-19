@@ -21,15 +21,17 @@ list() {
 }
 
 help() {
+	bname=`basename $0`
+
 	echo "github-cli,  Robert Nowotniak 2020 <rnowotniak@gmail.com>"
 	echo 
 	echo "Usage:"
-	echo -e "\t$0  -h | help"
-	echo -e "\t$0 [ list ]"
-	echo -e "\t$0 create [ -d <description> ] [ -p ] <repo_name>"
+	echo -e "\t$bname  -h | help"
+	echo -e "\t$bname [ list ]"
+	echo -e "\t$bname create [ -d <description> ] [ -p ] <repo_name>"
 	echo -e "\t            -p  means create a public repository (private is the default)"
-	echo -e "\t$0 delete <repo_name> [ <repo_name> ... ]"
-	echo -e "\t$0 info <repo_name> [ <repo_name> ... ]"
+	echo -e "\t$bname delete <repo_name> [ <repo_name> ... ]"
+	echo -e "\t$bname info <repo_name> [ <repo_name> ... ]"
 	echo
 	exit 1
 }
