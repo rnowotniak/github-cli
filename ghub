@@ -32,6 +32,10 @@ help() {
 	echo -e "\t            -p  means create a public repository (private is the default)"
 	echo -e "\t$bname delete <repo_name> [ <repo_name> ... ]"
 	echo -e "\t$bname info <repo_name> [ <repo_name> ... ]"
+	echo ""
+	echo "To be implemented:"
+	echo -e "\t$bname publish <repo_name> [ <repo_name> ... ]"
+	echo -e "\t$bname clone <repo_name> [ <repo_name> ... ]"
 	echo
 	exit 1
 }
