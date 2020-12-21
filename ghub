@@ -3,10 +3,6 @@
 # Robert Nowotniak 2020 <rnowotniak@gmail.com>
 #
 
-echo 
-
-exit 1
-
 TOKEN_FILE=`dirname "$0"`/.github-cli-token
 MAX_REPOS=9999999
 
