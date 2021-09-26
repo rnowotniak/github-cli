@@ -1,4 +1,4 @@
-# A simple github cli
+# A simple github cli, very handy!
 
 Author: Robert Nowotniak 2020 <<rnowotniak@gmail.com>>
 
