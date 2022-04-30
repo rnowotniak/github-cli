@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Robert Nowotniak 2020 <rnowotniak@gmail.com>
+# Robert Nowotniak 2020-2022 <robert@nowotniak.com>
 #
 
 TOKEN_FILE=`dirname "$0"`/.github-cli-token
@@ -60,6 +60,9 @@ create() {
 		help
 	fi
 	repo="$1"
+	if [ -z "$description" ]; then
+		description="$repo project"
+	fi
 	curl -s -H "Authorization: token ${token}" \
 		-d "{\"name\":\"${repo}\",\"description\":\"${description}\",\"private\":${private}}" \
 		https://api.github.com/user/repos | jq -r '.html_url'
