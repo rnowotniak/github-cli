@@ -23,7 +23,7 @@ list() {
 help() {
 	bname=`basename $0`
 
-	echo "github-cli,  Robert Nowotniak 2020 <rnowotniak@gmail.com>"
+	echo "github-cli,  Robert Nowotniak 2020-2022 <robert@nowotniak.com>"
 	echo 
 	echo "Usage:"
 	echo -e "\t$bname  -h | help"
